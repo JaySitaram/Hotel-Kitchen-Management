@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "324836527317",
+    "project_id": "hotel-kitchen-management-73ca7",
+    "storage_bucket": "hotel-kitchen-management-73ca7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324836527317:android:aa6d9ab393e361d8bba65c",
+        "android_client_info": {
+          "package_name": "com.example.hotel_kitchen_management_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzBIxoHQIgnEMcmUosDuS-aN5WYsx9Duc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
