@@ -19,7 +19,7 @@ class _MenuDetailViewState extends State<MenuDetailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Item #${widget.items['Item ID']}'),
+        title: Text('Item #${widget.items['item_id']}'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -98,7 +98,7 @@ class _MenuDetailViewState extends State<MenuDetailView> {
           controller:
               TextEditingController(text: widget.items[title].toString()),
           onChanged: (value) {
-            widget.items[value] = value;
+            widget.items[title] = value;
             // print('this is >> ${widget.items[title]} $title');
             setState(() {});
           },

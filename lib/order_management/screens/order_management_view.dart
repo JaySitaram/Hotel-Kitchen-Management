@@ -62,6 +62,7 @@ class OrderManagementScreen extends StatelessWidget {
 
   Widget buildOrderListItem(
       BuildContext context, String docId, Map<String, dynamic> data) {
+    print('this is >> $data');
     return ListTile(
       onTap: () {
         Navigator.of(context).push(
@@ -71,8 +72,8 @@ class OrderManagementScreen extends StatelessWidget {
           ),
         );
       },
-      title: Text('${'order_id'.tr} : ${data['order_id'.tr]}'),
-      subtitle: Text('${'order_status'.tr} : ${data['order_status'.tr]}'),
+      title: Text('${'order_id'.tr} : ${data['Order ID']}'),
+      subtitle: Text('${'order_status'.tr} : ${data['Order Status']}'),
     );
   }
 }

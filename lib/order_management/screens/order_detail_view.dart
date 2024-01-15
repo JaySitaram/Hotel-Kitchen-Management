@@ -35,17 +35,17 @@ class _OrderDetailViewState extends State<OrderDetailView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20),
-              buildDetailItem('order_date_time'.tr),
-              buildDetailItem('order_status'.tr),
-              buildDetailItem('customer_id'.tr),
-              buildDetailItem('customer_name'.tr),
-              buildDetailItem('customer_contact'.tr),
+              buildDetailItem('order_date_time'.tr, 'Order Date and Time'),
+              buildDetailItem('order_status'.tr, 'Order Status'),
+              buildDetailItem('customer_id'.tr, 'Customer ID'),
+              buildDetailItem('customer_name'.tr, 'Customer Name'),
+              buildDetailItem('customer_contact'.tr, 'Customer Contact'),
               buildOrderItemsSection(),
-              buildDetailItem('delivery_address'.tr),
-              buildDetailItem('payment_method'.tr),
-              buildDetailItem('payment_status'.tr),
-              buildDetailItem('admin_notes'.tr),
-              buildDetailItem('order_total'.tr),
+              buildDetailItem('delivery_address'.tr, 'Delivery Address'),
+              buildDetailItem('payment_method'.tr, 'Payment Method'),
+              buildDetailItem('payment_status'.tr, 'Payment Status'),
+              buildDetailItem('admin_notes'.tr, 'Admin Notes'),
+              buildDetailItem('order_total'.tr, 'Order Total'),
               buildChefDropdown(),
               buildUpdateOrderButton(widget.items['Order ID']),
               SizedBox(height: 20),
@@ -93,12 +93,12 @@ class _OrderDetailViewState extends State<OrderDetailView> {
     );
   }
 
-  Widget buildDetailItem(String title) {
+  Widget buildDetailItem(String title, String value) {
     return ListTile(
       minVerticalPadding: 0,
       title:
           Text(title, style: TextStyle(fontSize: 16, fontFamily: 'SemiBold')),
-      subtitle: Text(widget.items[title].toString(),
+      subtitle: Text(widget.items[value].toString(),
           style: TextStyle(fontSize: 15, fontFamily: 'Medium')),
     );
   }

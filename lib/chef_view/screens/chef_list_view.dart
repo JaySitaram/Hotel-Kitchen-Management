@@ -56,9 +56,9 @@ class ChefOrderManagementScreen extends StatelessWidget {
               onTap: () {
                 _navigateToOrderDetailView(context, data, docId);
               },
-              title: Text("${('order_id'.tr)} : ${data[('order_id'.tr)]}"),
+              title: Text("${('order_id'.tr)} : ${data['Order ID']}"),
               subtitle:
-                  Text('${('order_status'.tr)} : ${data[('order_status'.tr)]}'),
+                  Text('${('order_status'.tr)} : ${data['Order Status']}'),
             );
           },
           itemCount: documents.length,

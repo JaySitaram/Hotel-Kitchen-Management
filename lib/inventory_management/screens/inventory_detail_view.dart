@@ -21,29 +21,55 @@ class _InventoryDetailViewState extends State<InventoryDetailView> {
         title: Text(
             'Item #${widget.mapItem['item_id']}'), // Replace with a dynamic title if needed
       ),
-      body: Column(
-        children: [
-          _buildListTile('item_name'),
-          _buildListTile('category'),
-          _buildListTile('quantity'),
-          _buildListTile('unit_measure'),
-          _buildListTile('str_location'),
-          _buildListTile('min_stock_level'),
-          _buildListTile('notes'),
-          _buildElevatedButton('update_item'.tr, () {
-            // Trigger update item event
-            // context.read<InventoryBloc>().add(InventoryEvent.updateItem);
-            InventoryManagementCubit().updateInventoryStatus(widget.docId, {
-              'item_name': widget.mapItem['item_name'],
-              'category': widget.mapItem['category'],
-              'quantity': widget.mapItem['quantity'],
-              'unit_measure': widget.mapItem['unit_measure'],
-              'str_location': widget.mapItem['str_location'],
-              'min_stock_level': widget.mapItem['min_stock_level'],
-              'notes': widget.mapItem['notes'],
-            });
-          }),
-        ],
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            children: [
+              _buildListTile('item_name'),
+              SizedBox(
+                height: 10,
+              ),
+              _buildListTile('category'),
+              SizedBox(
+                height: 10,
+              ),
+              _buildListTile('quantity'),
+              SizedBox(
+                height: 10,
+              ),
+              _buildListTile('unit_measure'),
+              SizedBox(
+                height: 10,
+              ),
+              _buildListTile('str_location'),
+              SizedBox(
+                height: 10,
+              ),
+              _buildListTile('min_stock_level'),
+              SizedBox(
+                height: 10,
+              ),
+              _buildListTile('notes'),
+              SizedBox(
+                height: 20,
+              ),
+              _buildElevatedButton('update_item'.tr, () {
+                // Trigger update item event
+                // context.read<InventoryBloc>().add(InventoryEvent.updateItem);
+                InventoryManagementCubit().updateInventoryStatus(widget.docId, {
+                  'item_name': widget.mapItem['item_name'],
+                  'category': widget.mapItem['category'],
+                  'quantity': widget.mapItem['quantity'],
+                  'unit_measure': widget.mapItem['unit_measure'],
+                  'str_location': widget.mapItem['str_location'],
+                  'min_stock_level': widget.mapItem['min_stock_level'],
+                  'notes': widget.mapItem['notes'],
+                });
+              }),
+            ],
+          ),
+        ),
       ),
     );
   }
