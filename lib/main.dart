@@ -1,24 +1,32 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:hotel_kitchen_management_flutter/auth/bloc/authentication_cubit.dart';
 import 'package:hotel_kitchen_management_flutter/auth/screens/choose_options_page.dart';
+import 'package:hotel_kitchen_management_flutter/const/localization/locale_constant.dart';
+import 'package:hotel_kitchen_management_flutter/const/localization/localizations_delegate.dart';
 import 'package:hotel_kitchen_management_flutter/dashboard/bloc/dashboard_bloc_cubit.dart';
-import 'package:hotel_kitchen_management_flutter/firebase_options.dart';
 import 'package:hotel_kitchen_management_flutter/inventory_management/bloc/inventory_management_cubit.dart';
 import 'package:hotel_kitchen_management_flutter/menu_management/bloc/menu_management_cubit.dart';
 import 'package:hotel_kitchen_management_flutter/order_management/bloc/order_bloc_cubit.dart';
-import 'package:hotel_kitchen_management_flutter/reporting/bloc/reporting_cubit.dart';
+
+import 'const/locale_cubit.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  log('the token >> $fcmToken');
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   if (!kIsWeb) {
     await setupFlutterNotifications();
@@ -36,9 +44,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
 
-  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
   @override
   void initState() {
     // TODO: implement initState
@@ -67,6 +72,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    //  print('this is >> ${LocaleCubit.getInitialLocale()}');
     return MultiBlocProvider(
         providers: [
           BlocProvider<AuthenticationCubit>(
@@ -84,17 +90,31 @@ class _MyAppState extends State<MyApp> {
           BlocProvider<OrderBlocCubit>(
             create: (BuildContext context) => OrderBlocCubit(),
           ),
-          BlocProvider<ReportingCubit>(
-            create: (BuildContext context) => ReportingCubit(),
-          ),
         ],
-        child: MaterialApp(
+        child: GetMaterialApp(
+          supportedLocales: supportedLocales,
+          translations: TranslationService(),
+          locale: TranslationService.locale,
           title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          navigatorObservers: <NavigatorObserver>[observer],
+          localizationsDelegates: const [
+            AppLocalizationsDelegate(),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          localeResolutionCallback: (locale, supportedLocales) {
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale?.languageCode) {
+                return supportedLocale;
+              }
+            }
+            return supportedLocales.first;
+          },
           home: ChooseAuthOptionsPage(),
         ));
   }

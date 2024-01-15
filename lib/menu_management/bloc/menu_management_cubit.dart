@@ -11,7 +11,18 @@ class MenuManagementCubit extends Cubit<MenuManagementState> {
     return FirebaseFirestore.instance.collection('menu').snapshots();
   }
 
-  void updateMenuStatus(String documentId) {
-    FirebaseFirestore.instance.collection('order').doc(documentId).update({});
+  void updateMenuStatus(String documentId, Map<String, dynamic> mapItem) {
+    FirebaseFirestore.instance
+        .collection('menu')
+        .doc(documentId)
+        .update(mapItem);
+  }
+
+  void addMenuItem(Map<String, Object> map) {
+    FirebaseFirestore.instance.collection('menu').add(map);
+  }
+
+  void deleteMenuItem(String docId) {
+    FirebaseFirestore.instance.collection('menu').doc(docId).delete();
   }
 }

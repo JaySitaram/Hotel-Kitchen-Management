@@ -1,86 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:hotel_kitchen_management_flutter/const/storage.dart';
+import 'package:hotel_kitchen_management_flutter/const/widgets/drawer_widget.dart';
 import 'package:hotel_kitchen_management_flutter/dashboard/bloc/dashboard_bloc_cubit.dart';
 import 'package:hotel_kitchen_management_flutter/inventory_management/screens/inventory_management_view.dart';
 import 'package:hotel_kitchen_management_flutter/menu_management/screens/menu_management_view.dart';
 import 'package:hotel_kitchen_management_flutter/order_management/screens/order_management_view.dart';
+import 'package:hotel_kitchen_management_flutter/reporting/screens/reporting_view.dart';
 
 class AdminDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => DashboardBlocCubit(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Admin Dashboard'),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.exit_to_app),
-              onPressed: () {
-                // Trigger logout event
-                // context
-                //     .read<AuthenticationBloc>()
-                //     .add(AuthenticationEvent.logout);
-                // Navigate back to the login screen (Replace with your actual login screen)
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-        body: Center(
-          child: BlocBuilder<DashboardBlocCubit, DashboardBlocState>(
-            builder: (context, state) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MenuManagementScreen()),
-                      );
-                    },
-                    child: Text('Manage Menu'),
-                  ),
-                  SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Trigger go to orders event
-                      // context
-                      //     .read<DashboardBlocCubit>()
-                      //     .add(DashboardEvent.goToOrders);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => OrderManagementScreen()));
-                    },
-                    child: Text('Order Management'),
-                  ),
-                  SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Trigger go to inventory event
-                      // context
-                      //     .read<DashboardBloc>()
-                      //     .add(DashboardEvent.goToInventory);
-
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => InventoryManagementScreen()));
-                    },
-                    child: Text('Inventory Management'),
-                  ),
-                  SizedBox(height: 32.0),
-                  // if (state.isNotEmpty)
-                  //   Text(
-                  //     'Redirecting to ${state == 'orders' ? 'Order' : 'Inventory'} Management...',
-                  //     style: TextStyle(fontSize: 18.0),
-                  //   ),
-                ],
-              );
-            },
-          ),
+    return Scaffold(
+      drawer: DrawerWidget(email: LocalStorage.readStorage(LocalStorage.email)),
+      appBar: AppBar(
+        title: Text('admin_dashboard'.tr),
+        actions: [],
+      ),
+      body: Center(
+        child: BlocBuilder<DashboardBlocCubit, DashboardBlocState>(
+          builder: (context, state) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildElevatedButton(
+                  onPressed: () => _navigateTo(context, ReportingScreen()),
+                  label: 'Reporting',
+                ),
+                _buildSizedBox(16.0),
+                _buildElevatedButton(
+                  onPressed: () => _navigateTo(context, MenuManagementScreen()),
+                  label: 'manage_menu'.tr,
+                ),
+                _buildSizedBox(16.0),
+                _buildElevatedButton(
+                  onPressed: () =>
+                      _navigateTo(context, OrderManagementScreen()),
+                  label: 'order_management'.tr,
+                ),
+                _buildSizedBox(16.0),
+                _buildElevatedButton(
+                  onPressed: () =>
+                      _navigateTo(context, InventoryManagementScreen()),
+                  label: 'inventory_management'.tr,
+                ),
+                _buildSizedBox(32.0),
+                // if (state.isNotEmpty)
+                //   Text(
+                //     'Redirecting to ${state == 'orders' ? 'Order' : 'Inventory'} Management...',
+                //     style: TextStyle(fontSize: 18.0),
+                //   ),
+              ],
+            );
+          },
         ),
       ),
     );
+  }
+
+  Widget _buildElevatedButton({
+    required VoidCallback onPressed,
+    required String label,
+  }) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: Text(label),
+    );
+  }
+
+  Widget _buildSizedBox(double height) {
+    return SizedBox(height: height);
+  }
+
+  void _navigateTo(BuildContext context, Widget screen) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
   }
 }
