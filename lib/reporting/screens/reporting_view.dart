@@ -64,8 +64,8 @@ class ReportingScreen extends StatelessWidget {
   Widget buildOrderListItem(
       BuildContext context, String docId, Map<String, dynamic> data) {
     return ListTile(
-      title: Text('${'order_id'.tr} : ${data['order_id'.tr]}'),
-      subtitle: Text('${'order_status'.tr} : ${data['order_status'.tr]}'),
+      title: Text('${'order_id'.tr} : ${data['Order ID']}'),
+      subtitle: Text('${'order_status'.tr} : ${data['Order Status']}'),
       trailing: ElevatedButton(
         onPressed: () {
           generatePdf(data);
